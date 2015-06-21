@@ -1,0 +1,44 @@
+{
+  "builders": [
+    {
+      "type": "docker",
+      "image": "syalovitser/base_gcc_build",
+      "export_path": "packerimage.tar"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+	  "apt-get install -y software-properties-common wget ",
+	  "apt-get update",
+          "apt-get install -y bzr git mercurial meld ",
+	  "cd /usr/local;wget -O - https://storage.googleapis.com/golang/go1.4.2.linux-amd64.tar.gz | tar xvzf -",
+	  "export PATH=$PATH:/usr/local/go/bin",
+          "export GOROOT=/usr/local/go",
+	  "mkdir /opt/go",
+	  "export GOPATH=/opt/go",
+	  "go get -u github.com/mitchellh/gox",
+	  "go get -u github.com/mitchellh/packer",
+	  "cd $GOPATH/src/github.com/mitchellh/packer"
+      ]
+    }
+  ],
+  "post-processors": [
+   [
+    {
+      "type": "docker-import",
+      "repository": "syalovitser/packer_build",
+      "tag": "latest",
+      "keep_input_artifact": true
+    },
+    {
+      "type": "docker-push",
+      "login": true,
+      "login_email": "syalovitser@yahoo.com",
+      "login_username":"syalovitser",
+      "login_password":"ruslana"
+    }
+   ]
+  ]
+}

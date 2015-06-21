@@ -1,0 +1,38 @@
+{
+  "builders": [
+    {
+      "type": "docker",
+      "image": "syalovitser/base_gcc_build",
+      "export_path": "base_gcc_python_dev.tar"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+	  "apt-get install -y python-pip python-dev build-essential gfortran", 
+	  "apt-get install -y liblapack-dev libatlas-dev",
+	  "pip install --upgrade pip", 
+	  "pip install --upgrade virtualenv",
+	  "pip install numpy scipy pymongo"
+      ]
+    }
+  ],
+  "post-processors": [
+   [
+    {
+      "type": "docker-import",
+      "repository": "syalovitser/base_gcc_python",
+      "tag": "latest",
+      "keep_input_artifact": true
+    },
+    {
+      "type": "docker-push",
+      "login": true,
+      "login_email": "syalovitser@yahoo.com",
+      "login_username":"syalovitser",
+      "login_password":"ruslana"
+    }
+   ]
+  ]
+}
