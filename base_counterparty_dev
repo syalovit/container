@@ -1,0 +1,46 @@
+{
+  "builders": [
+    {
+      "type": "docker",
+      "image": "syalovitser/base_counterparty",
+      "export_path": "base_counterparty_dev.tar"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+    		"add-apt-repository ppa:webupd8team/java -y ",
+    		"apt-get update",
+    		"echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections",
+    		"apt-get install -y oracle-java8-installer libxext-dev libxrender-dev libxtst-dev",
+    		"apt-get clean",
+    		"rm -rf /var/lib/apt/lists/* ",
+    		"rm -rf /tmp/*",
+		"apt-get update && apt-get install -y libgtk2.0-0 libcanberra-gtk-module",
+    		"mkdir -p /home/developer",
+    		"echo 'developer:x:1000:1000:Developer,,,:/home/developer:/bin/bash' >> /etc/passwd",
+    		"echo 'developer:x:1000:' >> /etc/group",
+    		"chown developer:developer -R /home/developer",
+		"cd /opt  && wget http://ftp-stud.hs-esslingen.de/Mirrors/eclipse/technology/epp/downloads/release/mars/R/eclipse-cpp-mars-R-linux-gtk-x86_64.tar.gz  && tar xvfz eclipse-cpp-mars-R-linux-gtk-x86_64.tar.gz && chmod a+x eclipse/eclipse && rm eclipse-cpp-mars-R-linux-gtk-x86_64.tar.gz"
+      ]
+    }
+  ],
+  "post-processors": [
+    [
+    {
+      "type": "docker-import",
+      "repository": "syalovitser/base_counterparty_dev",
+      "tag": "latest",
+      "keep_input_artifact": true
+    },
+    {
+      "type": "docker-push",
+      "login": true,
+      "login_email": "syalovitser@yahoo.com",
+      "login_username":"syalovitser",
+      "login_password":"ruslana"
+    }
+   ]
+  ]
+}
