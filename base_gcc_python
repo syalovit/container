@@ -10,11 +10,11 @@
     {
       "type": "shell",
       "inline": [
-	  "apt-get install -y python-pip python-dev build-essential gfortran", 
+	  "apt-get install -y python-pip python-dev build-essential",
 	  "apt-get install -y liblapack-dev libatlas-dev",
 	  "pip install --upgrade pip", 
 	  "pip install --upgrade virtualenv",
-	  "pip install numpy scipy pymongo"
+	  "apt-get install -y python-numpy python-scipy"
       ]
     }
   ],
