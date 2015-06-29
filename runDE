@@ -1,0 +1,4 @@
+#!/bin/bash
+mkdir `pwd`/.eclipse-docker
+xhost +
+docker run -ti --rm -u "developer"  -e DISPLAY=$DISPLAY            -v /tmp/.X11-unix:/tmp/.X11-unix            -v `pwd`/.eclipse-docker:/home/developer            -v `pwd`:/workspace syalovitser/base_counterparty_dev /opt/eclipse/eclipse
