@@ -1,0 +1,41 @@
+{
+  "builders": [
+    {
+      "type": "docker",
+      "image": "syalovitser/base_gcc_python",
+      "export_path": "base_counterparty.tar"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+		"apt-add-repository ppa:bitcoin/bitcoin",
+		"apt-get update",
+		"apt-get install -y bitcoind bitcoin-qt",
+		"apt-get install -y python3-setuptools python3-dev",
+		"easy_install3 pip",
+		"pip3 install counterparty-lib",
+		"pip3 install --no-use-wheel counterparty-cli --pre",
+		"pip install ethereum-serpent"
+      ]
+    }
+  ],
+  "post-processors": [
+   [
+    {
+      "type": "docker-import",
+      "repository": "syalovitser/base_counterparty",
+      "tag": "latest",
+      "keep_input_artifact": true
+    },
+    {
+      "type": "docker-push",
+      "login": true,
+      "login_email": "syalovitser@yahoo.com",
+      "login_username":"syalovitser",
+      "login_password":"ruslana"
+    }
+   ]
+  ]
+}
