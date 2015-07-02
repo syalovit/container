@@ -1,0 +1,4 @@
+#!/bin/bash
+mkdir `pwd`/bitcoin_root
+xhost +
+docker run -ti --rm -u "developer"  -e DISPLAY=$DISPLAY            -v /tmp/.X11-unix:/tmp/.X11-unix            -v `pwd`/bitcoin_root:/home/developer syalovitser/base_counterparty_dev            bash
