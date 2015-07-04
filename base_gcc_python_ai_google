@@ -1,0 +1,39 @@
+{
+  "builders": [
+    {
+      "type": "docker",
+      "image": "syalovitser/base_gcc_python",
+      "export_path": "base_gcc_python_ai_google.tar"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+		"pip install ipython",
+		"pip install 'ipython[notebook]'",
+		"apt-get install -y libprotobuf-dev libleveldb-dev libsnappy-dev libopencv-dev libboost-all-dev libhdf5-serial-dev",
+		"apt-get install -y libgflags-dev libgoogle-glog-dev liblmdb-dev protobuf-compiler",
+		"mkdir /opt/caffe",
+		"cd /opt/caffe && git clone https://github.com/BVLC/caffe.git && cp Makefile.config.example Makefile.config && make all && make test && make runtest && make install" 
+      ]
+    }
+  ],
+  "post-processors": [
+   [
+    {
+      "type": "docker-import",
+      "repository": "syalovitser/base_gcc_python_ai_google",
+      "tag": "latest",
+      "keep_input_artifact": true
+    },
+    {
+      "type": "docker-push",
+      "login": true,
+      "login_email": "syalovitser@yahoo.com",
+      "login_username":"syalovitser",
+      "login_password":"ruslana"
+    }
+   ]
+  ]
+}
