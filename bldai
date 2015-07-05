@@ -1,0 +1,6 @@
+pip install ipython
+pip install 'ipython[notebook]'
+apt-get install -y libprotobuf-dev libleveldb-dev libsnappy-dev libopencv-dev libboost-all-dev libhdf5-serial-dev
+apt-get install -y libgflags-dev libgoogle-glog-dev liblmdb-dev protobuf-compiler
+mkdir /opt/caffe
+cd /opt/caffe && git clone https://github.com/BVLC/caffe.git && cp Makefile.config.example Makefile.config && make all && make test && make runtest && make install
